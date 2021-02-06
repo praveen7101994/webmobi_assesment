@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webmobi</title>
+    <style>
+        .welcome {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="welcome">
+        Welcome from
+    </h1>
+    <img src="https://webmobi.com/assets/img/webmobi_logo.png" alt="Webmobi">
+        
+        <form id="message-form">
+            <input type="text" id="msg">
+            <button id="sendMsg">Send</button>
+        </form>
+    <ul id="myList">
+        <li>Coffee</li>
+        <li>Tea</li>
+      </ul>
+</body>
+<script src="/socket.io/socket.io.js">
+</script>
+<script>
+    function myFunction(message) {
+  var node = document.createElement("LI");
+  var textnode = document.createTextNode(message);
+  node.appendChild(textnode);
+  document.getElementById("myList").appendChild(node);
+}
+
+    const socket = io()
+    socket.on('message', (message) => {
+        console.log(message)
+        myFunction(message)
+
+    })
+
+    document.getElementById('message-form').addEventListener('submit', (e) => {
+        e.preventDefault()
+        let message = document.getElementById('msg').value;
+        socket.emit('sendMessage', message)
+    })
+    
+</script>
+</html>
